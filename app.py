@@ -148,6 +148,8 @@ HTML_TEMPLATE = """
             <li>{{ subject.subject_name }}: {{ subject["0"][0].column_value }}</li>
         {% endfor %}
         </ul>
+        <p>📊 التقدير العام: {{ result.general_grade }}</p>
+        <p>📈 المجموع الكلي: {{ result.total_result }}</p>
     </div>
     {% elif error %}
         <p class="error">{{ error }}</p>
