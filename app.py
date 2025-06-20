@@ -14,120 +14,90 @@ HTML_TEMPLATE = """
     <meta charset="UTF-8">
     <title>نتيجة الطالب - جامعة أسيوط</title>
     <style>
-    body {
-        font-family: 'Segoe UI', Tahoma, sans-serif;
-        background: #ffeebe;
-        direction: rtl;
-        text-align: right;
-        padding: 2rem;
-        max-width: 100%;
-        margin: auto;
-        color: #333;
-    }
-
-    h2 {
-        color: #000000;
-        text-align: center;
-        margin-bottom: 2rem;
-        font-size: 2rem;
-    }
-
-    form {
-        margin-bottom: 2rem;
-        background: #000000;
-        padding: 1rem;
-        border-radius: 30px;
-        box-shadow: 0px 0px 30px #000000;
-    }
-
-    label {
-        color: #ffeebe;
-        font-size: 1.2rem;
-        margin-bottom: 10px;
-        display: flex;
-    }
-
-    input[type="text"], select {
-        padding: 0.5rem;
-        font-size: 1rem;
-        width: 100%;
-        border: 2px solid #ccc;
-        border-radius: 20px;
-        margin-bottom: 1rem;
-        box-sizing: border-box;
-    }
-
-    button {
-        display: block;
-        margin: 1rem auto;
-        background-color: #ffeebe;
-        color: black;
-        border: 2px solid transparent;
-        border-radius: 30px;
-        font-size: 1.2rem;
-        font-weight: bold;
-        padding: 0.5rem 2rem;
-        transition: all 0.3s ease;
-    }
-
-    button:hover {
-        background-color: #000000;
-        color: #ffeebe;
-        border: 2px solid #ffeebe;
-        cursor: pointer;
-    }
-
-    .result {
-        background: #ffeebe;
-        padding: 1.5rem;
-        border: 3px solid #000;
-        border-radius: 30px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        margin-top: 2rem;
-    }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-        font-size: 1.2rem;
-        border: 3px solid #000;
-        border-radius: 30px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    }
-
-    li {
-        margin-bottom: 0.5rem;
-        display: flex;
-        justify-content: space-between;
-        padding: 0.5rem 1rem;
-        border-bottom: 1px solid #ccc;
-    }
-
-    .error {
-        color: red;
-        font-weight: bold;
-        text-align: center;
-        margin-top: 1rem;
-    }
-
-    @media (max-width: 600px) {
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #ffeebe;
+            direction: rtl;
+            text-align: right;
+            padding: 2rem;
+            max-width: 800px;
+            margin: auto;
+            color: #333;
+        }
         h2 {
-            font-size: 1.5rem;
+            color: #000000;
+            text-align: center;
+            margin-bottom: 80px;
+            font-size: 40px;
         }
-
-        button {
-            width: 100%;
-            padding: 0.75rem;
+        form {
+            margin-bottom: 2rem;
+            background: #000000;
+            padding: 1rem;
+            border-radius: 30px;
+            box-shadow: 0px 0px 30px #000000;
+        }
+        label {
+            color: #ffeebe;
+            font-size: 25px;    
+            margin-bottom: 20px;
+            display: flex;
+        }
+        input[type="text"], select {
+            padding: 0.5rem;
             font-size: 1rem;
+            width: 97.5%;
+            border: 2px solid #ccc;
+            border-radius: 20px;
+            margin-bottom: 20px;
         }
-
+        button {
+            margin-top: 5%;
+            margin-left: 40%;
+            margin-right: 40%;
+            background-color: #ffeebe;
+            color: black;
+            border: 2px solid transparent;
+            border-radius: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px 50px;
+            transition: transform .4s;
+        }
+        button:hover {
+            background-color: #000000;
+            color: #ffeebe;
+            border: 2px solid #ffeebe;
+            cursor: pointer;
+        }
+        .result {
+            background: #ffeebe;
+            padding: 2rem;
+            border: 3px solid #000;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin-top: 2rem;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            font-size: 30px;
+            border: 3px solid #000;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
         li {
-            flex-direction: column;
-            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #ccc;
         }
-    }
-</style>
-
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <h2>نتيجة الطالب - كلية التجارة | جامعة أسيوط</h2>
