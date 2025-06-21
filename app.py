@@ -50,7 +50,7 @@ HTML_TEMPLATE = """
             padding: 0.5rem;
             font-size: 1rem;
             border: 2px solid #ccc;
-            border-radius: 20px;
+            border-radius: 30px;
             margin-bottom: 3%;
         }
 
@@ -167,7 +167,7 @@ HTML_TEMPLATE = """
     </style>
 </head>
 <body>
-    <h2>نتيجة طلاب الكليات لجامعة أسيوط</h2>
+    <h2>نتائج جامعة أسيوط</h2>
     <form method="post">
         <!-- أضف داخل <form> بعد اختيار الكلية مباشرة -->
 <label for="faculty_id">الكلية:</label>
