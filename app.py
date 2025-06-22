@@ -12,7 +12,7 @@ HTML_TEMPLATE = """
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>نتيجة الطالب - جامعة أسيوط</title>
+    <title>نتائج جامعة أسيوط</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, sans-serif;
