@@ -36,13 +36,14 @@ HTML_TEMPLATE = """
         form {
             margin-bottom: 2rem;
             background: #000000;
-            padding: 1rem;
+            padding: 2.5rem;
             border-radius: 30px;
             box-shadow: 0px 0px 30px #000000;
         }
         label {
             color: #ffeebe;
             font-size: 25px;
+            font-weight: bold;
             margin-bottom: 20px;
             display: flex;
         }
