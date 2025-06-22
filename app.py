@@ -11,32 +11,107 @@ HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <meta charset="UTF-8">
     <title>نتائج جامعة أسيوط</title>
     <style>
+    
+
+    nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 5%;
+    background-color: #000000;
+    box-shadow: 0px 0px 30px #ffeebe;
+}
+
+    }
+    
+    a {
+        background-color: transparent;
+    }
+    
+    nav {
+    direction: ltr;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #000000;
+    box-shadow: 0px 0px 30px #ffeebe;
+    }
+    
+    .logo {
+    color: #ffeebe;
+    background-color: transparent;
+    font-size: 25px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    }
+    
+    a {
+        background-color: transparent;
+    }
+
+
+    .buttonnn {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffeebe;
+    color: #000000;
+    text-decoration: none;
+    border: 2px solid #ffeebe;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px 15px;
+    margin: 2px;
+    border-radius: 30px;
+    transition: .4s;
+    }
+
+     .buttonnn:hover {
+        background-color: #000000;
+        color: #ffeebe;
+        border: 2px solid #ffeebe;
+    }
+
+
+        .resolto {
+            direction: rtl;
+            height: 100%;
+            padding-bottom: 6%;
+
+        }
+
         body {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
             font-family: 'Segoe UI', Tahoma, sans-serif;
             background: #ffeebe;
-            direction: rtl;
             text-align: right;
-            padding: 2rem;
-            max-width: 800px;
-            margin: auto;
+            max-width: 100%;
             color: #333;
         }
         h2 {
             color: #000000;
             text-align: center;
-            margin-bottom: 80px;
-            font-size: 40px;
+            margin-bottom: 6%;
+            font-size: 45px;
         }
         p {
             font-size: 25px;
         }
         form {
-            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: 18%;
+            margin-right: 18%;
+            margin-bottom: 2%;
             background: #000000;
-            padding: 2.5rem;
+            padding: 4rem;
             border-radius: 30px;
             box-shadow: 0px 0px 30px #000000;
         }
@@ -49,7 +124,7 @@ HTML_TEMPLATE = """
         }
         input[type="text"], select {
             padding: 0.5rem;
-            font-size: 1rem;
+            font-size: 15px;
             border: 2px solid #ccc;
             border-radius: 30px;
             margin-bottom: 3%;
@@ -63,17 +138,15 @@ HTML_TEMPLATE = """
             width: 97.45%;
         }
         button {
-            margin-top: 5%;
-            margin-left: 40%;
-            margin-right: 40%;
             background-color: #ffeebe;
             color: black;
             border: 2px solid transparent;
             border-radius: 30px;
             font-size: 20px;
             font-weight: bold;
-            padding: 10px 50px;
+            padding: 0px 70px;
             transition: transform .4s;
+            cursor: pointer;
         }
         button:hover {
             background-color: #000000;
@@ -82,19 +155,21 @@ HTML_TEMPLATE = """
             cursor: pointer;
         }
         .result {
+            margin-left: 20%;
+            margin-right: 20%;
             background: #ffeebe;
             padding: 2rem;
             border: 3px solid #000;
             border-radius: 30px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            margin-top: 2rem;
+            margin-top: 2%;
         }
         .congrats {
             text-align: center;
             background-color: #d4edda;
             color: #155724;
             border: 2px solid #c3e6cb;
-            padding: 2rem;
+            padding: 1rem;
             margin-bottom: 1rem;
             border-radius: 15px;
             font-size: 35px;
@@ -114,7 +189,7 @@ HTML_TEMPLATE = """
             display: flex;
             justify-content: space-between;
             padding: 0.4rem 0.8rem;
-            border-bottom: 2.5px solid #ccc;
+            border-bottom: 1px solid #ccc;
         }
         .subject-name {
             margin-right: 20%;
@@ -131,7 +206,172 @@ HTML_TEMPLATE = """
             font-weight: bold;
         }
 
-        @media (max-width: 1000px) {
+
+        #contact {
+            font-size: 50px;
+        }
+
+         .contact-me {
+    width: 100%;
+    height: 150px;
+    background: #000000;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    }
+    
+    .contact-me p {
+    color: #ffeebe;
+    background-color: #000000;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    }
+    
+    .contact-me .button-two {
+    background-color: #ffeebe;
+    color: #000000;
+    text-decoration: none;
+    border: 2px solid transparent;
+    font-weight: bold;
+    padding: 13px 30px;
+    border-radius: 30px;
+    transition: .6s;
+    }
+    
+    .contact-me .button-two:hover {
+    color: #ffeebe;
+    background-color: transparent;
+    border: 2px solid white;
+    cursor: pointer;
+    }
+
+        footer::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: #ffeebe;
+    position: absolute; 
+    clip-path: circle(14% at right 38%);
+    }
+    
+    
+    footer::before {
+        content: "";
+        width: 100%;
+        height: 100%;
+        background-color: #ffeebe;
+        position: absolute; 
+        clip-path: circle(14% at left 38%);
+    }
+
+     .contact-me {
+    width: 100%;
+    height: 150px;
+    background: #000000;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    }
+    
+    .contact-me p {
+    color: #ffeebe;
+    background-color: #000000;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    }
+    
+    .contact-me .button-two {
+    background-color: #ffeebe;
+    color: #000000;
+    text-decoration: none;
+    border: 2px solid transparent;
+    font-weight: bold;
+    padding: 13px 30px;
+    border-radius: 30px;
+    transition: .6s;
+    }
+    
+    .contact-me .button-two:hover {
+    color: #ffeebe;
+    background-color: transparent;
+    border: 2px solid white;
+    cursor: pointer;
+    }
+    
+    footer {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    background: #000000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    }
+    
+    footer p:nth-child(1) {
+    font-size: 30px;
+    color: #ffeebe;
+    background-color: #000000;
+    margin-bottom: 20px;
+    font-weight: bold;
+    }
+    
+    footer p:nth-child(2) {
+    color: #ffeebe;
+    background-color: #000000;
+    font-size: 17px;
+    width: 500px;
+    text-align: center;
+    line-height: 26px;
+    }
+    
+    .social {
+    display: flex;
+    color: #ffeebe;
+    }
+    
+    .social a {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 22px 10px;
+    color: #ffeebe;
+    text-decoration: none;
+    font-size: 45px;
+    }
+    
+    .social a:hover {
+    transform: scale(1.3);
+    transition: .3s;
+    }
+    
+    .end {  
+    position: absolute;
+    color: white;
+    background-color: #000000;
+    bottom: 35px;
+    font-size: 14px;
+    }
+    
+
+
+
+
+
+        @media (max-width: 1500px) {
+
+        form {
+            margin-left: 8%;
+            margin-right: 8%;
+        }
 
         h2 {
             font-size: 90px;
@@ -146,7 +386,13 @@ HTML_TEMPLATE = """
             font-size: 50px;
         }
 
+        .result {
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+
         button {
+            margin-top: 2%;
             font-size: 50px;
             padding: 10px 30px;
         }
@@ -163,33 +409,104 @@ HTML_TEMPLATE = """
         li {
             font-size: 45px;
         }
+
+            .container {
+        width: 100%;
+        align-items: center;
+    }
+    
+    .logo {
+    font-size: 50px;
+    margin-left: 3%;
+    padding: 5px 10px;
+    }
+    
+    nav {
+        font-size: 20px;
+        padding-left: 0px;
+        padding-right: 0px;
+        text-align: center;
+    }
+    
+    .buttonnn {
+        font-size: 45px;
+        border-radius: 30px;
+        font-weight: bold;
+        padding: 8px 20px;
+        margin-top: 7px;
+        margin-right: 7px;
+        display: inline-block;
+        top: 8px;
+        right: 16px;
+    }
+    
+    footer::after {
+        clip-path: circle(8% at right 44%);
+    }
+    
+    
+    footer::before {
+        clip-path: circle(8% at left 44%);
+
+
+    
+    .contact-me p {
+        font-size: 45px;
+    }
+    
+    
+    footer p:nth-child(1) {
+    font-size: 30px;
+    }
+    
+    footer p:nth-child(2) {
+    font-size: 17px;
+    }
+    
+
+
+    div.social {
+        font-size: 30px;
+    }
+
+    .social a {
+    font-size: 60px;
+    }
+    
+    
+    .end {  
+    font-size: 40px;
+    }
     }
 </style>
-    </style>
 </head>
 <body>
-    <h2>نتائج جامعة أسيوط</h2>
-    <form method="post">
-        <!-- أضف داخل <form> بعد اختيار الكلية مباشرة -->
-<label for="faculty_id">الكلية:</label>
-<select name="faculty_id" id="faculty_id" required onchange="updateGroups()">
-    <option value="">اختر الكلية ...</option>
-    <option value="1">تمريض</option>
-    <option value="2">حقوق</option>
-    <option value="3">التربية للطفولة المبكرة</option>
-    <option value="4">الخدمة الاجتماعية</option>
-    <option value="5">فنون جميلة</option>
-    <option value="6">تربية رياضية</option>
-    <option value="7">طب بيطري</option>
-    <option value="9">معهد تمريض</option>
-    <option value="10">التجارة</option>
-</select>
+    <nav>
+        <h3 class="logo"> El-Da7e7a </h3>
+        <a class="buttonnn" href="https://www.ahmed-hassan.tech/"> زور موقعنا </a>
+    </nav>
+    <div class="resolto">
+        <h2>نتائج جامعة أسيوط</h2>
+        <form method="post">
+            <!-- أضف داخل <form> بعد اختيار الكلية مباشرة -->
+        <label for="faculty_id">الكلية:</label>
+        <select name="faculty_id" id="faculty_id" required onchange="updateGroups()">
+            <option value="">اختر الكلية ...</option>
+            <option value="1">تمريض</option>
+            <option value="2">حقوق</option>
+            <option value="3">التربية للطفولة المبكرة</option>
+            <option value="4">الخدمة الاجتماعية</option>
+            <option value="5">فنون جميلة</option>
+            <option value="6">تربية رياضية</option>
+            <option value="7">طب بيطري</option>
+            <option value="9">معهد تمريض</option>
+            <option value="10">التجارة</option>
+        </select>
 
-<label for="group_id">الفرقة:</label>
-<select name="group_id" id="group_id" required disabled>
-    <option value="">اختر الفرقة...</option>
-</select>
-
+        <label for="group_id">الفرقة:</label>
+        <select name="group_id" id="group_id" required disabled>
+            <option value="">اختر الفرقة...</option>
+        </select>
 <script>
 const groupOptions = {
     "1": [
@@ -321,6 +638,20 @@ const groupOptions = {
     {% elif error %}
         <p class="error">{{ error }}</p>
     {% endif %}
+
+    </div>
+
+    <footer id="contact" class="clip">
+            <p> تواصل معنا </p>
+            <div class="social">
+                <a href="http://wa.me/201128641717"> <i class="fa-brands fa-whatsapp"></i> </a>
+                <a href="https://www.facebook.com/2ahmedhassan2"> <i class="fa-brands fa-facebook"></i> </a>
+                <a href="https://github.com/2ahmedhassan2/"> <i class="fa-brands fa-github"></i> </a>
+                <a href="https://www.linkedin.com/in/2ahmedhassan2/"> <i class="fa-brands fa-linkedin-in"></i> </a>
+                <a href="https://www.instagram.com/2ahmedhassan2/"> <i class="fa-brands fa-instagram"></i> </a>
+            </div>
+            <p class="end"> &copy; 2025 Ahmed Hassan. All rights reserved. </p>
+    </footer>
 </body>
 </html>
 """
