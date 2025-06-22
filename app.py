@@ -93,7 +93,7 @@ HTML_TEMPLATE = """
             background-color: #d4edda;
             color: #155724;
             border: 2px solid #c3e6cb;
-            padding: 1rem;
+            padding: 2rem;
             margin-bottom: 1rem;
             border-radius: 15px;
             font-size: 20px;
