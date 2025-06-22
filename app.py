@@ -96,7 +96,7 @@ HTML_TEMPLATE = """
             padding: 2rem;
             margin-bottom: 1rem;
             border-radius: 15px;
-            font-size: 20px;
+            font-size: 30px;
             box-shadow: 0 0 10px #aaa;
         }
         ul {
