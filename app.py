@@ -123,7 +123,7 @@ HTML_TEMPLATE = """
     }
     input[type="text"], select {
         padding: 0.5rem;
-        font-size: 15px;
+        font-size: 23px;
         border: 2px solid #ccc;
         border-radius: 30px;
         margin-bottom: 3%;
