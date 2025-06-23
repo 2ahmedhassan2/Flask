@@ -143,7 +143,7 @@ HTML_TEMPLATE = """
         border-radius: 30px;
         font-size: 20px;
         font-weight: bold;
-        padding: 0px 70px;
+        padding: 10px 40px;
         transition: transform .4s;
         cursor: pointer;
     }
