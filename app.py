@@ -370,6 +370,10 @@ HTML_TEMPLATE = """
         margin-right: 7%;
     }
 
+    footer {
+        height: 500px;
+    }
+
     h2 {
         font-size: 90px;
         margin-bottom: 3%;
