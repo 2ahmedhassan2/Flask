@@ -189,7 +189,7 @@ HTML_TEMPLATE = """
             display: flex;
             justify-content: space-between;
             padding: 0.4rem 0.8rem;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 4px solid #ccc;
         }
         .subject-name {
             margin-right: 20%;
