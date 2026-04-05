@@ -677,7 +677,7 @@ def index():
         }
         payload = {
             "_token": token,
-            "exam_year_id": "1",
+            "exam_year_id": "3",
             "faculty_id": request.form["faculty_id"],
             "group_id": group_id,
             "department_id": "",
