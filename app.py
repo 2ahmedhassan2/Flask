@@ -493,7 +493,7 @@ HTML_TEMPLATE = """
             <option value="6">تربية رياضية</option>
             <option value="7">طب بيطري</option>
             <option value="9">معهد تمريض</option>
-            <option value="10">التجارة</option>
+            <option value="17">التجارة</option>
         </select>
 
         <label for="group_id">الفرقة:</label>
@@ -548,7 +548,7 @@ const groupOptions = {
         { value: "11", text: "الفرقة الأولى - لائحة قديمة" },
         { value: "12", text: "الفرقة الأولى - لائحة قديمة - نظام الساعات الدراسية" }
         ],
-        "10": [
+        "17": [
         { value: "22", text: "الفرقة الأولى - لغة إنجليزية - انتساب" },
         { value: "23", text: "الفرقة الأولى - انتساب" },
         { value: "28", text: "الفرقة الأولى - لغة إنجليزية - فتظلم" },
