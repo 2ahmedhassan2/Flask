@@ -625,9 +625,6 @@ const groupOptions = {
         {% if result.general_grade in ["ممتاز", "جيد جدا", "جيد", "مقبول"] %}
         <div class="congrats">
             🎉 تهانينا {{ result.student_name.split(' ')[0] }}! لقد حصلت على تقدير <strong>{{ result.general_grade }}</strong> بمجموع <strong>{{ result.total_result.replace('%', '') }}</strong>. بالتوفيق!
-            <div class="congrats">
-                🏆 ترتيبك على الدفعة: <strong id="rank">جاري التحميل...</strong>
-            </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
         <script>
@@ -641,6 +638,9 @@ const groupOptions = {
         <p>👤 الاسم: {{ result.student_name }}</p>
         <p>🆔 رقم الطالب: {{ result.student_number }}</p>
         <p>🎓 الفرقة: {{ result.group }}</p>
+        <div class="congrats">
+            🏆 ترتيبك على الدفعة: <strong id="rank">جاري التحميل...</strong>
+        </div>
         {% if result.general_grade %}
             <p>📊 التقدير العام: {{ result.general_grade }}</p>
         {% endif %}
