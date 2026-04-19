@@ -595,32 +595,6 @@ const groupOptions = {
     </form>
 
     {% if result %}
-    <script>
-    const seatNumber = "{{ result.student_number }}";
-
-    const rankDiv = document.getElementById("rank");
-
-    if (seatNumber) {
-        const url = "https://script.google.com/macros/s/AKfycbyqcUH9opPRiaJxn1XROeqb5QQYuEGkQF2TBjyf4BKzzhNRfa2LATToZXm10OhMBVwG/exec?seat=" 
-                    + encodeURIComponent(seatNumber);
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (data.rank) {
-                    rankDiv.innerHTML = "🏆 الترتيب: " + data.rank;
-                } else if (data.error) {
-                    rankDiv.innerHTML = data.error;
-                } else {
-                    rankDiv.innerHTML = "حدث خطأ في الترتيب";
-                }
-            })
-            .catch(error => {
-                rankDiv.innerHTML = "فشل تحميل الترتيب";
-                console.error(error);
-            });
-    }
-</script>
     <div class="result">
         {% if result.general_grade in ["ممتاز", "جيد جدا", "جيد", "مقبول"] %}
         <div class="congrats">
@@ -641,6 +615,29 @@ const groupOptions = {
         <div class="congrats">
             🏆 ترتيبك على الدفعة: <strong id="rank">جاري التحميل...</strong>
         </div>
+        
+        <script>
+        const seatNumber = "{{ result.student_number }}";
+        const rankDiv = document.getElementById("rank");
+        
+        if (seatNumber) {
+            const url = "https://script.google.com/macros/s/AKfycbyqcUH9opPRiaJxn1XROeqb5QQYuEGkQF2TBjyf4BKzzhNRfa2LATToZXm10OhMBVwG/exec?seat=" 
+                        + encodeURIComponent(seatNumber);
+        
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.rank) {
+                        rankDiv.innerHTML = "🏆 " + data.rank;
+                    } else {
+                        rankDiv.innerHTML = "لا يوجد ترتيب";
+                    }
+                })
+                .catch(() => {
+                    rankDiv.innerHTML = "فشل الاتصال";
+                });
+        }
+        </script>
         {% if result.general_grade %}
             <p>📊 التقدير العام: {{ result.general_grade }}</p>
         {% endif %}
