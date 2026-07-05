@@ -269,25 +269,25 @@ HTML_TEMPLATE = """
 <body>
     <nav>
         <h3 class="logo">El-Da7e7a</h3>
-        <a class="buttonnn" href="https://www.ahmed-hassan.tech/">زور موقعنا</a>
+        <a class="buttonnn" href="https://elda7e7a.vercel.app/">زور موقعنا</a>
     </nav>
     <div class="resolto">
-        <h2>نتائج كلية التجارة - جامعة أسيوط</h2>
+        <h2>نتائج الفرقة الثالثة كلية التجارة - جامعة أسيوط</h2>
         <form method="post">
-            <label for="group_id">الفرقة والشعبة:</label>
+            <label for="group_id">الفرقة:</label>
             <select name="group_id" id="group_id" required>
-                <option value="">اختر الفرقة والشعبة...</option>
+                <option value="">اختر الفرقة...</option>
                 <option value="164">الثالثة أنُتظام</option>
                 <option value="165">الثالثة أنُتساب</option>
                 <option value="166">الثالثة سياسة انتظام</option>
                 <option value="167">الثالثة سياسة انتساب</option>
             </select>
 
-            <label>رقم الجلوس أو اسم الطالب:</label>
-            <input type="text" name="student_number" placeholder="أدخل رقم الجلوس أو الاسم" required>
+            <label>رقم الجلوس:</label>
+            <input type="text" name="student_number" placeholder="اكتب رقم الجلوس" required>
             
-            <label>الاسم الرابع (لتأكيد الهوية حماية للخصوصية):</label>
-            <input type="text" name="fourth_name" placeholder="أدخل الاسم الرابع فقط المطابق للشيت" required>
+            <label>إكتب الإسم الرابع:</label>
+            <input type="text" name="fourth_name" placeholder="اكتب إسمك الرابع فقط" required>
 
             <button type="submit">بحث</button>
         </form>
@@ -304,11 +304,11 @@ HTML_TEMPLATE = """
             </script>
             {% endif %}
             
-            <p>👤 الاسم: {{ result.student_name }}</p>
-            <p>🆔 رقم الطالب / الجلوس: {{ result.student_number }}</p>
+            <p> الاسم: {{ result.student_name }}</p>
+            <p> رقم الجلوس: {{ result.student_number }}</p>
             
             <div class="congrats" style="background-color: #f4f8f9; color: #0f4c9c; border: 1px solid #d1dbe5;">
-                🏆 ترتيبك على الدفعة: <strong id="rank">جاري التحميل...</strong>
+                ترتيبك على الدفعة: <strong id="rank">جاري التحميل...</strong>
             </div>
 
             <script>
@@ -400,7 +400,7 @@ def index():
         
         token, cookies, session = get_token_and_cookies()
         if not token:
-            return render_template_string(HTML_TEMPLATE, error="⚠️ فشل الاتصال بموقع الجامعة الرئيسي. يرجى المحاولة لاحقاً.", apps_script_url=APPS_SCRIPT_URL)
+            return render_template_string(HTML_TEMPLATE, error="فشل الاتصال بالسيرفر الرئيسي حاول تاني او استني شوية.", apps_script_url=APPS_SCRIPT_URL)
 
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
@@ -431,7 +431,7 @@ def index():
                 # التحقق الحاسم من تطابق الاسم الرابع في الخلفية لحماية الخصوصية
                 name_parts = student_name.split()
                 if len(name_parts) < 4 or name_parts[3] != fourth_name:
-                    error = "❌ الاسم الرابع غير متطابق مع البيانات المسجلة. تم حجب النتيجة لحماية الخصوصية."
+                    error = "الاسم الرابع غلط (مافيش ترتيبات يلا هش من هنا)."
                 else:
                     total_result = None
                     general_grade = None
@@ -446,9 +446,9 @@ def index():
                     data["fourth_name"] = fourth_name
                     result = data
             else:
-                error = "❌ لا توجد نتيجة لهذا الطالب بالبيانات المدخلة."
+                error = "في حاجه كتبتها غلط راجع بياناتك."
         except Exception:
-            error = "⚠️ فشل في الاتصال أو تحليل السيرفر. تأكد من استقرار الشبكة."
+            error = "(فشل في الاتصال بالسيرفر (إتأكد من استقرار الشبكة."
             
     return render_template_string(HTML_TEMPLATE, result=result, error=error, apps_script_url=APPS_SCRIPT_URL)
 
