@@ -9,7 +9,7 @@ import os
 app = Flask(__name__)
 
 # الرابط الخاص بك لجلب الترتيب وزيادة عداد البحث
-APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxwX62AcJuIiPlEgm9XpLGNejzvzYzWOKCN5V9bZqHtUSDTx1f6pYDX-RTl18V8cBAJ/exec"
+APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxBHbAfHSSyMgJuwfTIpU_RoOI9McyuJ1O053tiWpuwMm2t1UnnGpv_Vnz1lf9p2Qa/exec"
 
 HTML_TEMPLATE = """
 <!DOCTYPE html>
