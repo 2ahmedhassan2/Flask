@@ -312,13 +312,12 @@ HTML_TEMPLATE = """
             </div>
 
             {% if result.general_grade %}
-                <p>📊 التقدير العام: {{ result.general_grade }}</p>
+                <p> التقدير العام: {{ result.general_grade }}</p>
             {% endif %}
             {% if result.total_result %}
-                <p>📈 المجموع الكلي: {{ result.total_result.replace('%', '') }}</p>
+                <p> المجموع الكلي: {{ result.total_result.replace('%', '') }}</p>
             {% endif %}
             
-            <h4>📚 الدرجات بالتفصيل:</h4>
             <ul>
             {% for subject in result.result_subjects_details %}
                 <li>
