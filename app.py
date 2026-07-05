@@ -312,12 +312,13 @@ HTML_TEMPLATE = """
             </div>
 
             {% if result.general_grade %}
-                <p> التقدير العام: {{ result.general_grade }}</p>
+                <p>📊 التقدير العام: {{ result.general_grade }}</p>
             {% endif %}
             {% if result.total_result %}
-                <p> المجموع الكلي: {{ result.total_result.replace('%', '') }}</p>
+                <p>📈 المجموع الكلي: {{ result.total_result.replace('%', '') }}</p>
             {% endif %}
             
+            <h4>📚 الدرجات بالتفصيل:</h4>
             <ul>
             {% for subject in result.result_subjects_details %}
                 <li>
@@ -338,7 +339,7 @@ HTML_TEMPLATE = """
             <a href="http://wa.me/201128641717"><i class="fa-brands fa-whatsapp"></i></a>
             <a href="https://www.facebook.com/2ahmedhassan2"><i class="fa-brands fa-facebook"></i></a>
             <a href="https://github.com/2ahmedhassan2/"><i class="fa-brands fa-github"></i></a>
-            <a href="https://www.linkedin.com/in/2ahmedhassan2/"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://www.linkedin.com/in/201128641717/"><i class="fa-brands fa-linkedin-in"></i></a>
             <a href="https://www.instagram.com/2ahmedhassan2/"><i class="fa-brands fa-instagram"></i></a>
         </div>
         <p class="end"> &copy; 2026 Ahmed Hassan. All rights reserved. </p>
@@ -400,44 +401,39 @@ def index():
             if data.get("status") == "true" or data.get("status") is True:
                 student_name = data.get("student_name", "").strip()
                 
-                def normalize_text(text):
-                    return text.strip().replace("أ", "ا").replace("إ", "ا").replace("آ", "ا").replace("ة", "ه")
-
-                name_parts = student_name.split()
+                total_result = None
+                general_grade = None
+                for item in data.get("result_total_degrees", []):
+                    if item["column_name"] == "المجموع":
+                        total_result = item["column_value"]
+                    elif item["column_name"] == "التقدير العام":
+                        general_grade = item["column_value"]
                 
-                if len(name_parts) < 4 or normalize_text(name_parts[3]) != normalize_text(fourth_name_input):
-                    error = "الاسم الرابع غلط (تأكيد الهوية فشل لحماية الخصوصية)."
-                else:
-                    total_result = None
-                    general_grade = None
-                    for item in data.get("result_total_degrees", []):
-                        if item["column_name"] == "المجموع":
-                            total_result = item["column_value"]
-                        elif item["column_name"] == "التقدير العام":
-                            general_grade = item["column_value"]
-                    
-                    data["total_result"] = total_result
-                    data["general_grade"] = general_grade
-                    data["student_number"] = student_number
-                    
-                    # 🚀 التحديث السحري: استدعاء جوجل شيت مباشرة من البايثون لزيادة العداد وجلب الترتيب دائمًا وبشكل آمن
-                    try:
-                        sheet_response = requests.get(
-                            APPS_SCRIPT_URL, 
-                            params={"seat": student_number, "fourthName": name_parts[3]}, 
-                            timeout=10
-                        )
-                        sheet_data = sheet_response.json()
-                        if "rank" in sheet_data:
-                            data["rank"] = sheet_data["rank"]
-                        else:
-                            data["rank"] = "غير متوفر حالياً"
-                    except Exception:
-                        data["rank"] = "تم احتساب البحث (فشل عرض الترتيب)"
+                data["total_result"] = total_result
+                data["general_grade"] = general_grade
+                data["student_number"] = student_number
 
-                    result = data
+                # 🚀 إرسال البيانات فوراً إلى Apps Script (التحقق والعد والتفريق يقع على عاتق الشيت الآن)
+                try:
+                    sheet_response = requests.get(
+                        APPS_SCRIPT_URL, 
+                        params={"seat": student_number, "fourthName": fourth_name_input}, 
+                        timeout=10
+                    )
+                    sheet_data = sheet_response.json()
+                    
+                    if "success" in sheet_data and sheet_data["success"] is True:
+                        # الحالة الأولى: رقم الجلوس صح والاسم الرابع صح
+                        data["rank"] = sheet_data.get("rank", "N/A")
+                        result = data  # عرض البيانات بنجاح
+                    else:
+                        # الحالة الثانية: رقم الجلوس صح ولكن الاسم الرابع غلط (تم الاحتساب وزيادة العداد في الشيت كـ "اسم خاطئ")
+                        error = "الاسم الرابع غلط (تأكيد الهوية فشل لحماية الخصوصية)، ولكن تم تسجيل المحاولة في النظام."
+                
+                except Exception:
+                    error = "الاسم الرابع غلط (تأكيد الهوية فشل لحماية الخصوصية)."
             else:
-                error = "في حاجه كتبتها غلط راجع بياناتك."
+                error = "رقم الجلوس خطأ أو غير موجود، راجع بياناتك."
         except Exception as e:
             error = "فشل في الاتصال بالسيرفر (إتأكد من استقرار الشبكة)."
             
