@@ -8,7 +8,7 @@ import os
 
 app = Flask(__name__)
 
-# الرابط الجديد المحدث لجلب الترتيب وزيادة عداد البحث
+# الرابط الخاص بك لجلب الترتيب وزيادة عداد البحث
 APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxwX62AcJuIiPlEgm9XpLGNejzvzYzWOKCN5V9bZqHtUSDTx1f6pYDX-RTl18V8cBAJ/exec"
 
 HTML_TEMPLATE = """
@@ -308,35 +308,8 @@ HTML_TEMPLATE = """
             <p> رقم الجلوس: {{ result.student_number }}</p>
             
             <div class="congrats" style="background-color: #f4f8f9; color: #0f4c9c; border: 1px solid #d1dbe5;">
-                ترتيبك على الدفعة: <strong id="rank">جاري التحميل...</strong>
+                ترتيبك على الدفعة: <strong>{{ result.rank }}</strong>
             </div>
-
-            <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const seatNumber = "{{ result.student_number }}";
-                const fourthName = "{{ result.fourth_name }}";
-                const rankDiv = document.getElementById("rank");
-                
-                if (seatNumber) {
-                    const scriptUrl = "{{ apps_script_url }}?seat=" + encodeURIComponent(seatNumber) + "&fourthName=" + encodeURIComponent(fourthName);
-                    
-                    fetch(scriptUrl)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.error) {
-                                rankDiv.innerHTML = data.error;
-                            } else if (data.rank) {
-                                rankDiv.innerHTML = data.rank;
-                            } else {
-                                rankDiv.innerHTML = "لا يوجد ترتيب متوفر";
-                            }
-                        })
-                        .catch(() => {
-                            rankDiv.innerHTML = "فشل في تحميل الترتيب الكلي وضبط العداد";
-                        });
-                }
-            });
-            </script>
 
             {% if result.general_grade %}
                 <p>📊 التقدير العام: {{ result.general_grade }}</p>
@@ -400,7 +373,7 @@ def index():
         
         token, cookies, session = get_token_and_cookies()
         if not token:
-            return render_template_string(HTML_TEMPLATE, error="فشل الاتصال بالسيرفر الرئيسي حاول تاني او استني شوية.", apps_script_url=APPS_SCRIPT_URL)
+            return render_template_string(HTML_TEMPLATE, error="فشل الاتصال بالسيرفر الرئيسي حاول تاني او استني شوية.")
 
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
@@ -428,13 +401,11 @@ def index():
             if data.get("status") == "true" or data.get("status") is True:
                 student_name = data.get("student_name", "").strip()
                 
-                # تنظيف النصوص لضمان دقة المقارنة وتجنب مشاكل الهمزات والتاء المربوطة
                 def normalize_text(text):
                     return text.strip().replace("أ", "ا").replace("إ", "ا").replace("آ", "ا").replace("ة", "ه")
 
                 name_parts = student_name.split()
                 
-                # التحقق الحاسم من تطابق الاسم الرابع لحماية الخصوصية
                 if len(name_parts) < 4 or normalize_text(name_parts[3]) != normalize_text(fourth_name_input):
                     error = "الاسم الرابع غلط (تأكيد الهوية فشل لحماية الخصوصية)."
                 else:
@@ -448,17 +419,30 @@ def index():
                     
                     data["total_result"] = total_result
                     data["general_grade"] = general_grade
-                    
-                    # نرسل الاسم الرابع المستخرج من قاعدة بيانات الجامعة إلى الجافاسكريبت لضمان مطابقة الـ Apps script بنجاح
-                    data["fourth_name"] = name_parts[3]
                     data["student_number"] = student_number
+                    
+                    # 🚀 التحديث السحري: استدعاء جوجل شيت مباشرة من البايثون لزيادة العداد وجلب الترتيب دائمًا وبشكل آمن
+                    try:
+                        sheet_response = requests.get(
+                            APPS_SCRIPT_URL, 
+                            params={"seat": student_number, "fourthName": name_parts[3]}, 
+                            timeout=10
+                        )
+                        sheet_data = sheet_response.json()
+                        if "rank" in sheet_data:
+                            data["rank"] = sheet_data["rank"]
+                        else:
+                            data["rank"] = "غير متوفر حالياً"
+                    except Exception:
+                        data["rank"] = "تم احتساب البحث (فشل عرض الترتيب)"
+
                     result = data
             else:
                 error = "في حاجه كتبتها غلط راجع بياناتك."
         except Exception as e:
             error = "فشل في الاتصال بالسيرفر (إتأكد من استقرار الشبكة)."
             
-    return render_template_string(HTML_TEMPLATE, result=result, error=error, apps_script_url=APPS_SCRIPT_URL)
+    return render_template_string(HTML_TEMPLATE, result=result, error=error)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
