@@ -8,7 +8,7 @@ import os
 
 app = Flask(__name__)
 
-# رابط الـ Deployment الجديد الخاص بك لجلب الترتيب
+# رابط الـ Deployment لجلب الترتيب
 APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz0w01TDX_6z4qPIrVxKUm4g0n-EARzBxfgTD8RMNsVs7SOaJupcbK2vbTYB4hTN64U/exec"
 
 HTML_TEMPLATE = """
@@ -17,291 +17,270 @@ HTML_TEMPLATE = """
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <meta charset="UTF-8">
-    <title>نتائج جامعة أسيوط</title>
+    <title>نتائج كلية التجارة - جامعة أسيوط</title>
     <style>
-    nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 5%;
-        background-color: #000000;
-        box-shadow: 0px 0px 30px #ffeebe;
-    }
-    
-    a {
-        background-color: transparent;
-    }
-    
-    nav {
-        direction: ltr;
-        align-items: center;
-        justify-content: space-between;
-        background-color: #000000;
-        box-shadow: 0px 0px 30px #ffeebe;
-    }
-    
-    .logo {
-        color: #ffeebe;
-        background-color: transparent;
-        font-size: 25px;
-        letter-spacing: 1px;
-        cursor: pointer;
-    }
-
-    .buttonnn {
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        background-color: #ffeebe;
-        color: #000000;
-        text-decoration: none;
-        border: 2px solid #ffeebe;
-        font-size: 20px;
-        font-weight: bold;
-        padding: 5px 15px;
-        margin: 2px;
-        border-radius: 30px;
-        transition: .4s;
-    }
-
-    .buttonnn:hover {
-        background-color: #000000;
-        color: #ffeebe;
-        border: 2px solid #ffeebe;
-    }
-
-    .resolto {
-        direction: rtl;
-        height: 100%;
-        padding-bottom: 6%;
-    }
-
     body {
         padding: 0;
         margin: 0;
         box-sizing: border-box;
         scroll-behavior: smooth;
         font-family: 'Segoe UI', Tahoma, sans-serif;
-        background: #ffeebe;
+        background: #f4f8f9;
         text-align: right;
         max-width: 100%;
         color: #333;
     }
-    h2 {
-        color: #000000;
+    
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 8%;
+        background-color: #ffffff;
+        box-shadow: 0px 2px 10px rgba(0,0,0,0.05);
+        direction: ltr;
+    }
+    
+    .logo {
+        color: #0f4c9c;
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        margin: 0;
+    }
+
+    .buttonnn {
         text-align: center;
-        margin-bottom: 6%;
-        font-size: 45px;
+        background-color: #0f4c9c;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 8px 24px;
+        border-radius: 20px;
+        transition: .3s;
+        border: 1px solid #0f4c9c;
     }
+
+    .buttonnn:hover {
+        background-color: #1d5cb3;
+        color: #ffffff;
+    }
+
+    .resolto {
+        direction: rtl;
+        min-height: calc(100vh - 400px);
+        padding: 40px 0;
+    }
+
+    h2 {
+        color: #0f4c9c;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 36px;
+        font-weight: bold;
+    }
+    
     p {
-        font-size: 25px;
+        font-size: 20px;
     }
+    
     form {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-left: 18%;
-        margin-right: 18%;
-        margin-bottom: 2%;
-        background: #000000;
-        padding: 4rem;
-        border-radius: 30px;
-        box-shadow: 0px 0px 30px #000000;
+        max-width: 600px;
+        margin: 0 auto 30px auto;
+        background: #ffffff;
+        padding: 3rem;
+        border-radius: 24px;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e1e8ed;
     }
+    
     label {
-        color: #ffeebe;
-        font-size: 25px;
-        font-weight: bold;
-        margin-bottom: 20px;
+        color: #333333;
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 10px;
         display: flex;
         align-self: flex-start;
         width: 100%;
     }
+    
     input[type="text"], select {
-        padding: 0.5rem;
-        font-size: 23px;
-        border: 2px solid #ccc;
-        border-radius: 30px;
-        margin-bottom: 3%;
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 18px;
+        border: 1.5px solid #d1dbe5;
+        border-radius: 12px;
+        margin-bottom: 25px;
         box-sizing: border-box;
+        background-color: #fcfdfe;
+        transition: border-color 0.3s;
     }
 
-    select {
-        width: 100%;
+    input[type="text"]:focus, select:focus {
+        border-color: #0f4c9c;
+        outline: none;
     }
-
-    input {
-        width: 100%;
-    }
+    
     button {
-        background-color: #ffeebe;
-        color: black;
-        border: 2px solid transparent;
-        border-radius: 30px;
-        font-size: 20px;
+        background-color: #0f4c9c;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 18px;
         font-weight: bold;
-        padding: 10px 40px;
-        transition: transform .4s;
+        padding: 12px 50px;
+        transition: background-color 0.3s, transform 0.2s;
         cursor: pointer;
+        margin-top: 10px;
     }
+    
     button:hover {
-        background-color: #000000;
-        color: #ffeebe;
-        border: 2px solid #ffeebe;
+        background-color: #1d5cb3;
     }
+    
+    button:active {
+        transform: scale(0.98);
+    }
+
     .result {
-        margin-left: 20%;
-        margin-right: 20%;
-        background: #ffeebe;
-        padding: 2rem;
-        border: 3px solid #000;
-        border-radius: 30px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        margin-top: 2%;
+        max-width: 700px;
+        margin: 30px auto;
+        background: #ffffff;
+        padding: 2.5rem;
+        border-radius: 24px;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e1e8ed;
     }
+    
     .congrats {
         text-align: center;
-        background-color: #d4edda;
-        color: #155724;
-        border: 2px solid #c3e6cb;
+        background-color: #e6f4ea;
+        color: #137333;
+        border: 1px solid #ceead6;
         padding: 1rem;
-        margin-bottom: 1rem;
-        border-radius: 15px;
-        font-size: 35px;
-        box-shadow: 0 0 10px #aaa;
+        margin-bottom: 1.5rem;
+        border-radius: 16px;
+        font-size: 24px;
+        font-weight: bold;
     }
+    
     ul {
         list-style-type: none;
         padding: 0;
-        font-size: 20px;
-        border: 3px solid #000;
-        border-radius: 30px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        margin-top: 1rem;
+        font-size: 18px;
+        border: 1px solid #e1e8ed;
+        border-radius: 16px;
+        overflow: hidden;
+        margin-top: 1.5rem;
     }
+    
     li {
-        margin-bottom: 0.3rem;
         display: flex;
         justify-content: space-between;
-        padding: 0.4rem 0.8rem;
-        border-bottom: 4px solid #ccc;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #e1e8ed;
+        background-color: #fcfdfe;
     }
+    
+    li:last-child {
+        border-bottom: none;
+    }
+
+    li:nth-child(even) {
+        background-color: #ffffff;
+    }
+    
     .subject-name {
-        margin-right: 10%;
-        font-weight: bold;
+        font-weight: 600;
+        color: #4a5568;
     }
+    
     .grade {
-        margin-left: 10%;   
-        min-width: 100px;
-        text-align: left;
+        font-weight: bold;
+        color: #0f4c9c;
         direction: ltr;
     }
+    
     .error {
-        color: #721c24;
-        background-color: #f8d7da;
-        border: 2px solid #f5c6cb;
+        color: #c5221f;
+        background-color: #fce8e6;
+        border: 1px solid #fad2cf;
         padding: 1rem;
-        border-radius: 20px;
+        border-radius: 16px;
         text-align: center;
-        font-size: 22px;
-        margin: 2% 20%;
+        font-size: 18px;
+        max-width: 600px;
+        margin: 20px auto;
         font-weight: bold;
     }
+    
     footer {
-        position: relative;
         width: 100%;
-        height: 350px;
-        background: #000000;
+        padding: 40px 0;
+        background: #111111;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
     }
+    
     footer p:nth-child(1) {
-        font-size: 30px;
-        color: #ffeebe;
-        background-color: #000000;
-        margin-bottom: 20px;
+        font-size: 20px;
+        color: #ffffff;
+        margin-bottom: 15px;
         font-weight: bold;
     }
-    footer p:nth-child(2) {
-        color: #ffeebe;
-        background-color: #000000;
-        font-size: 17px;
-        width: 500px;
-        text-align: center;
-        line-height: 26px;
-    }
+    
     .social {
         display: flex;
-        color: #ffeebe;
+        gap: 25px;
+        margin: 15px 0;
     }
+    
     .social a {
-        width: 45px;
-        height: 45px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        margin: 22px 35px;
-        color: #ffeebe;
+        color: #a0aec0;
         text-decoration: none;
-        font-size: 50px;
+        font-size: 32px;
+        transition: color 0.3s, transform 0.3s;
     }
+    
     .social a:hover {
-        transform: scale(1.3);
-        transition: .3s;
+        color: #ffffff;
+        transform: scale(1.15);
     }
+    
     .end {  
         margin-top: 20px;
-        position: absolute;
-        color: white;
-        background-color: #000000;
-        bottom: 35px;
+        color: #718096;
         font-size: 14px;
     }
-    @media (max-width: 1500px) {
-        form { margin-left: 7%; margin-right: 7%; }
-        footer { height: 500px; }
-        h2 { font-size: 90px; margin-bottom: 3%; }
-        p, label { font-size: 45px; }
-        input[type="text"], select { font-size: 50px; }
-        .result { margin-left: 7.5%; margin-right: 7.5%; }
-        button { margin-top: 2%; font-size: 50px; padding: 10px 30px; }
-        li { font-size: 45px; }
-        .logo { font-size: 50px; margin-left: 3%; padding: 5px 10px; }
-        nav { font-size: 20px; text-align: center; }
-        .buttonnn { font-size: 45px; border-radius: 30px; padding: 8px 20px; display: inline-block; }
-        .end { font-size: 25px; }
-        .error { margin: 2% 7%; font-size: 35px; }
+    
+    @media (max-width: 768px) {
+        form, .result, .error { width: 90%; padding: 2rem 1.5rem; }
+        h2 { font-size: 28px; }
+        nav { padding: 15px 4%; }
     }
     </style>
 </head>
 <body>
     <nav>
-        <h3 class="logo"> El-Da7e7a </h3>
-        <a class="buttonnn" href="https://www.ahmed-hassan.tech/"> زور موقعنا </a>
+        <h3 class="logo">El-Da7e7a</h3>
+        <a class="buttonnn" href="https://www.ahmed-hassan.tech/">زور موقعنا</a>
     </nav>
     <div class="resolto">
-        <h2>نتائج جامعة أسيوط</h2>
+        <h2>نتائج كلية التجارة - جامعة أسيوط</h2>
         <form method="post">
-            <label for="faculty_id">الكلية:</label>
-            <select name="faculty_id" id="faculty_id" required onchange="updateGroups()">
-                <option value="">اختر الكلية ...</option>
-                <option value="1">تمريض</option>
-                <option value="2">حقوق</option>
-                <option value="3">التربية للطفولة المبكرة</option>
-                <option value="4">الخدمة الاجتماعية</option>
-                <option value="5">فنون جميلة</option>
-                <option value="6">تربية رياضية</option>
-                <option value="7">طب بيطري</option>
-                <option value="9">معهد تمريض</option>
-                <option value="17">التجارة</option>
-            </select>
-
-            <label for="group_id">الفرقة:</label>
-            <select name="group_id" id="group_id" required disabled>
-                <option value="">اختر الفرقة...</option>
+            <label for="group_id">الفرقة والشعبة:</label>
+            <select name="group_id" id="group_id" required>
+                <option value="">اختر الفرقة والشعبة...</option>
+                <option value="164">الثالثة أنُتظام</option>
+                <option value="165">الثالثة أنُتساب</option>
+                <option value="166">الثالثة سياسة انتظام</option>
+                <option value="167">الثالثة سياسة انتساب</option>
             </select>
 
             <label>رقم الجلوس أو اسم الطالب:</label>
@@ -312,69 +291,6 @@ HTML_TEMPLATE = """
 
             <button type="submit">بحث</button>
         </form>
-
-        <script>
-        const groupOptions = {
-            "1": [
-                { value: "1", text: "الفرقة الأولى" },
-                { value: "2", text: "الفرقة الثانية" },
-                { value: "10", text: "المستوى الثاني - لائحة حديثة" },
-                { value: "17", text: "الفرقة الثالثة - لائحة قديمة" },
-                { value: "76", text: "المستوى الثالث - غير نظامي - لائحة حديثة" },
-                { value: "77", text: "المستوى الثالث - لائحة قديمة" },
-                { value: "79", text: "المستوى الثالث - نظامي" }
-            ],
-            "2": [
-                { value: "53", text: "الفرقة الأولى - لغة إنجليزية" },
-                { value: "65", text: "الفرقة الأولى - انتظام" },
-                { value: "66", text: "الفرقة الأولى - انتساب" },
-                { value: "61", text: "الفرقة الثانية - لغة إنجليزية" },
-                { value: "73", text: "الفرقة الثانية - انتظام" },
-                { value: "74", text: "الفرقة الثانية - انتساب" },
-                { value: "60", text: "الفرقة الثالثة - لغة إنجليزية" },
-                { value: "31", text: "الفرقة الثالثة - انتظام" },
-                { value: "72", text: "الفرقة الثالثة - انتساب" },
-                { value: "54", text: "الفرقة الرابعة - لغة إنجليزية - مستجدون" },
-                { value: "68", text: "الفرقة الرابعة - انتظام" },
-                { value: "70", text: "الفرقة الرابعة - انتساب" }
-            ],
-            "4": [
-                { value: "1", text: "الفرقة الأولى" },
-                { value: "2", text: "الفرقة الثانية" },
-                { value: "17", text: "الفرقة الثالثة - لائحة قديمة" }
-            ],
-            "17": [
-                { value: "22", text: "الفرقة الأولى - لغة إنجليزية - انتساب" },
-                { value: "23", text: "الفرقة الأولى - انتساب" },
-                { value: "29", text: "الفرقة الأولى - انتظام" },
-                { value: "24", text: "الفرقة الثانية - لغة إنجليزية - انتظام" },
-                { value: "26", text: "الفرقة الثانية - انتظام" },
-                { value: "27", text: "الفرقة الثانية - انتساب" },
-                { value: "30", text: "الفرقة الثالثة - انتساب" },
-                { value: "164", text: "الفرقة الثالثة - انتظام" },
-                { value: "33", text: "الفرقة الرابعة - محاسبة - انتظام" },
-                { value: "34", text: "الفرقة الرابعة - محاسبة - انتساب" }
-            ]
-        };
-
-        function updateGroups() {
-            const facultySelect = document.getElementById("faculty_id");
-            const groupSelect = document.getElementById("group_id");
-            const facultyId = facultySelect.value;
-
-            groupSelect.innerHTML = '<option value="">اختر الفرقة...</option>';
-            groupSelect.disabled = !facultyId;
-
-            if (facultyId && groupOptions[facultyId]) {
-                groupOptions[facultyId].forEach(option => {
-                    const opt = document.createElement("option");
-                    opt.value = option.value;
-                    opt.textContent = option.text;
-                    groupSelect.appendChild(opt);
-                });
-            }
-        }
-        </script>
 
         {% if result %}
         <div class="result">
@@ -390,9 +306,8 @@ HTML_TEMPLATE = """
             
             <p>👤 الاسم: {{ result.student_name }}</p>
             <p>🆔 رقم الطالب / الجلوس: {{ result.student_number }}</p>
-            <p>🎓 الفرقة: {{ result.group }}</p>
             
-            <div class="congrats" style="background-color: #ffeebe; color: #000; border: 2px solid #000;">
+            <div class="congrats" style="background-color: #f4f8f9; color: #0f4c9c; border: 1px solid #d1dbe5;">
                 🏆 ترتيبك على الدفعة: <strong id="rank">جاري التحميل...</strong>
             </div>
 
@@ -480,7 +395,7 @@ def index():
     if request.method == "POST":
         student_number = request.form["student_number"].strip()
         fourth_name = request.form["fourth_name"].strip()
-        faculty_id = request.form["faculty_id"]
+        faculty_id = "17"  # تثبيت كلية التجارة تلقائياً
         group_id = request.form["group_id"]
         
         token, cookies, session = get_token_and_cookies()
@@ -511,18 +426,25 @@ def index():
             data = res.json()
             
             if data.get("status") == "true":
-                total_result = None
-                general_grade = None
-                for item in data.get("result_total_degrees", []):
-                    if item["column_name"] == "المجموع":
-                        total_result = item["column_value"]
-                    elif item["column_name"] == "التقدير العام":
-                        general_grade = item["column_value"]
+                student_name = data.get("student_name", "").strip()
                 
-                data["total_result"] = total_result
-                data["general_grade"] = general_grade
-                data["fourth_name"] = fourth_name  # تمريره إلى الـ JavaScript بالـ Frontend للتأكيد
-                result = data
+                # التحقق الحاسم من تطابق الاسم الرابع في الخلفية لحماية الخصوصية
+                name_parts = student_name.split()
+                if len(name_parts) < 4 or name_parts[3] != fourth_name:
+                    error = "❌ الاسم الرابع غير متطابق مع البيانات المسجلة. تم حجب النتيجة لحماية الخصوصية."
+                else:
+                    total_result = None
+                    general_grade = None
+                    for item in data.get("result_total_degrees", []):
+                        if item["column_name"] == "المجموع":
+                            total_result = item["column_value"]
+                        elif item["column_name"] == "التقدير العام":
+                            general_grade = item["column_value"]
+                    
+                    data["total_result"] = total_result
+                    data["general_grade"] = general_grade
+                    data["fourth_name"] = fourth_name
+                    result = data
             else:
                 error = "❌ لا توجد نتيجة لهذا الطالب بالبيانات المدخلة."
         except Exception:
