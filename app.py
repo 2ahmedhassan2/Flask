@@ -8,8 +8,8 @@ import os
 
 app = Flask(__name__)
 
-# رابط الـ Deployment لجلب الترتيب
-APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz0w01TDX_6z4qPIrVxKUm4g0n-EARzBxfgTD8RMNsVs7SOaJupcbK2vbTYB4hTN64U/exec"
+# الرابط الجديد المحدث لجلب الترتيب وزيادة عداد البحث
+APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyBvEsXkEY4GBgburUTuV15hOBmjsUO2J84dKlTu9O1AoY78kyxKn7EHXdvbvmUfnoc/exec"
 
 HTML_TEMPLATE = """
 <!DOCTYPE html>
@@ -332,7 +332,7 @@ HTML_TEMPLATE = """
                             }
                         })
                         .catch(() => {
-                            rankDiv.innerHTML = "فشل في تحميل الترتيب الكلي";
+                            rankDiv.innerHTML = "فشل في تحميل الترتيب الكلي وضبط العداد";
                         });
                 }
             });
@@ -394,8 +394,8 @@ def index():
     error = None
     if request.method == "POST":
         student_number = request.form["student_number"].strip()
-        fourth_name = request.form["fourth_name"].strip()
-        faculty_id = "17"  # تثبيت كلية التجارة تلقائياً
+        fourth_name_input = request.form["fourth_name"].strip()
+        faculty_id = "17"  
         group_id = request.form["group_id"]
         
         token, cookies, session = get_token_and_cookies()
@@ -425,13 +425,18 @@ def index():
             res = session.post("https://services.aun.edu.eg/results/public/ar/exam-result", headers=headers, data=payload, timeout=12)
             data = res.json()
             
-            if data.get("status") == "true":
+            if data.get("status") == "true" or data.get("status") is True:
                 student_name = data.get("student_name", "").strip()
                 
-                # التحقق الحاسم من تطابق الاسم الرابع في الخلفية لحماية الخصوصية
+                # تنظيف النصوص لضمان دقة المقارنة وتجنب مشاكل الهمزات والتاء المربوطة
+                def normalize_text(text):
+                    return text.strip().replace("أ", "ا").replace("إ", "ا").replace("آ", "ا").replace("ة", "ه")
+
                 name_parts = student_name.split()
-                if len(name_parts) < 4 or name_parts[3] != fourth_name:
-                    error = "الاسم الرابع غلط (مافيش ترتيبات يلا هش من هنا)."
+                
+                # التحقق الحاسم من تطابق الاسم الرابع لحماية الخصوصية
+                if len(name_parts) < 4 or normalize_text(name_parts[3]) != normalize_text(fourth_name_input):
+                    error = "الاسم الرابع غلط (تأكيد الهوية فشل لحماية الخصوصية)."
                 else:
                     total_result = None
                     general_grade = None
@@ -443,12 +448,15 @@ def index():
                     
                     data["total_result"] = total_result
                     data["general_grade"] = general_grade
-                    data["fourth_name"] = fourth_name
+                    
+                    # نرسل الاسم الرابع المستخرج من قاعدة بيانات الجامعة إلى الجافاسكريبت لضمان مطابقة الـ Apps script بنجاح
+                    data["fourth_name"] = name_parts[3]
+                    data["student_number"] = student_number
                     result = data
             else:
                 error = "في حاجه كتبتها غلط راجع بياناتك."
-        except Exception:
-            error = "(فشل في الاتصال بالسيرفر (إتأكد من استقرار الشبكة."
+        except Exception as e:
+            error = "فشل في الاتصال بالسيرفر (إتأكد من استقرار الشبكة)."
             
     return render_template_string(HTML_TEMPLATE, result=result, error=error, apps_script_url=APPS_SCRIPT_URL)
 
