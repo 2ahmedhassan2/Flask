@@ -259,11 +259,114 @@ HTML_TEMPLATE = """
         font-size: 14px;
     }
     
-    @media (max-width: 768px) {
-        form, .result, .error { width: 90%; padding: 2rem 1.5rem; }
-        h2 { font-size: 28px; }
-        nav { padding: 15px 4%; }
+    @media (max-width: 1500px) {
+
+    form {
+        margin-left: 7%;
+        margin-right: 7%;
     }
+
+    footer {
+        height: 500px;
+    }
+
+    h2 {
+        font-size: 90px;
+        margin-bottom: 3%;
+    }
+
+    p, label {
+        font-size: 45px;
+    }
+
+    input[type="text"], select {
+        font-size: 50px;
+    }
+
+    .result {
+        margin-left: 7.5%;
+        margin-right: 7.5%;
+    }
+
+    button {
+        margin-top: 2%;
+        font-size: 50px;
+        padding: 10px 30px;
+    }
+
+
+    .subject-name {
+        margin-right: 15%;
+    }
+
+    .grade {
+        margin-left: 15%;
+    }   
+
+    li {
+        font-size: 45px;
+    }
+
+    .container {
+        width: 100%;
+        align-items: center;
+    }
+    
+    .logo {
+        font-size: 50px;
+        margin-left: 3%;
+        padding: 5px 10px;
+    }
+    
+
+    contact p {
+        font-size: 40px;
+    }
+
+    nav {
+        font-size: 20px;
+        padding-left: 0px;
+        padding-right: 0px;
+        text-align: center;
+    }
+    
+    .buttonnn {
+        font-size: 45px;
+        border-radius: 30px;
+        font-weight: bold;
+        padding: 8px 20px;
+        margin-top: 7px;
+        margin-right: 7px;
+        display: inline-block;
+        top: 8px;
+        right: 16px;
+    }
+    
+    footer::after {
+        clip-path: circle(8% at right 44%);
+    }
+    
+    
+    footer::before {
+        clip-path: circle(8% at left 44%);
+    }
+
+    
+    
+    
+    footer p:nth-child(1) {
+        font-size: 30px;
+    }
+    
+    footer p:nth-child(2) {
+        font-size: 17px;
+    }
+
+    
+    .end {  
+        font-size: 25px;
+    }
+}
     </style>
 </head>
 <body>
