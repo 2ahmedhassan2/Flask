@@ -273,6 +273,10 @@ HTML_TEMPLATE = """
         margin-bottom: 3%;
     }
 
+    h4 {
+        font-size: 50px;
+    }
+
     p, label {
         font-size: 45px;
     }
@@ -419,7 +423,7 @@ HTML_TEMPLATE = """
                 <p>📈 المجموع الكلي: {{ result.total_result.replace('%', '') }}</p>
             {% endif %}
             
-            <h4>📚 الدرجات بالتفصيل:</h4>
+            <h4>الدرجات بالتفصيل:</h4>
             <ul>
             {% for subject in result.result_subjects_details %}
                 <li>
