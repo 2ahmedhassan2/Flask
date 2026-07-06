@@ -268,7 +268,7 @@ HTML_TEMPLATE = """
         height: 500px;
     }
 
-    .congrates {
+    .congrats {
         font-size: 50px;
     }
 
