@@ -387,10 +387,10 @@ HTML_TEMPLATE = """
             <label for="group_id">الفرقة:</label>
             <select name="group_id" id="group_id" required>
                 <option value="">اختر الفرقة...</option>
-                <option value="164">الثالثة أنُتظام</option>
-                <option value="165">الثالثة أنُتساب</option>
-                <option value="166">الثالثة سياسة انتظام</option>
-                <option value="167">الثالثة سياسة انتساب</option>
+                <option value="164">الثالثة إنتظام</option>
+                <option value="165">الثالثة إنتساب</option>
+                <option value="166">الثالثة سياسة إنتظام</option>
+                <option value="167">الثالثة سياسة إنتساب</option>
             </select>
 
             <label>رقم الجلوس:</label>
