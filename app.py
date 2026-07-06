@@ -268,6 +268,10 @@ HTML_TEMPLATE = """
         height: 500px;
     }
 
+    .congrates {
+        font-size: 50px;
+    }
+
     h2 {
         font-size: 90px;
         margin-bottom: 3%;
