@@ -261,7 +261,8 @@ HTML_TEMPLATE = """
     
     @media (max-width: 1500px) {
 
-    form {
+.social a {
+        font-size: 50px;
     }
 
     footer {
