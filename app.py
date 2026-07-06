@@ -262,7 +262,7 @@ HTML_TEMPLATE = """
     @media (max-width: 1500px) {
 
     form {
-        margin-left: 7%;
+        margin-left: 2%;
         margin-right: 7%;
     }
 
