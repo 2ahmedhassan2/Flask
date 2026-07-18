@@ -335,7 +335,7 @@ HTML_TEMPLATE = """
         <div class="result">
             {% if result.general_grade in ["ممتاز", "جيد جدا", "جيد", "مقبول"] %}
             <div class="congrats">
-                🎉 الف مبروك {{ result.student_name.split(' ')[0] }}! تقديرك <strong>{{ result.general_grade }}</strong>. بالتوفيق!
+                🎉 الف مبروك يا {{ result.student_name.split(' ')[0] }}! تقديرك <strong>{{ result.general_grade }}</strong>. بالتوفيق!
             </div>
             <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
             <script>
