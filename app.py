@@ -325,8 +325,8 @@ HTML_TEMPLATE = """
             <label>رقم الجلوس:</label>
             <input type="text" name="student_number" placeholder="اكتب رقم الجلوس" required>
             
-            <label>إكتب الإسم الرابع:</label>
-            <input type="text" name="fourth_name" placeholder="اكتب إسمك الرابع فقط" required>
+            <label> إكتب الإسم الرابع فقط من إسمك:</label>
+            <input type="text" name="fourth_name" placeholder="الإسم الرابع فقط" required>
 
             <button type="submit">بحث</button>
         </form>
