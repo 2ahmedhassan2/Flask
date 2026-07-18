@@ -167,6 +167,20 @@ HTML_TEMPLATE = """
         font-size: 24px;
         font-weight: bold;
     }
+
+    .summary-box {
+        background-color: #f4f8f9; 
+        color: #0f4c9c; 
+        border: 1px solid #d1dbe5;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-radius: 16px;
+        font-size: 20px;
+    }
+
+    .summary-item {
+        margin: 10px 0;
+    }
     
     ul {
         list-style-type: none;
@@ -261,119 +275,116 @@ HTML_TEMPLATE = """
     
     @media (max-width: 1500px) {
 
-.social a {
-        font-size: 50px;
-    }
+        .social a {
+            font-size: 50px;
+        }
 
-    footer {
-        height: 500px;
-    }
+        footer {
+            height: 500px;
+        }
 
-    .congrats {
-        font-size: 50px;
-    }
+        .congrats {
+            font-size: 50px;
+        }
 
-    h2 {
-        font-size: 90px;
-        margin-bottom: 3%;
-    }
+        .summary-box {
+            font-size: 45px;
+        }
 
-    h4 {
-        font-size: 50px;
-    }
+        h2 {
+            font-size: 90px;
+            margin-bottom: 3%;
+        }
 
-    p, label {
-        font-size: 45px;
-    }
+        h4 {
+            font-size: 50px;
+        }
 
-    input[type="text"], select {
-        font-size: 50px;
-    }
+        p, label {
+            font-size: 45px;
+        }
 
-    .result {
-        margin-left: 7.5%;
-        margin-right: 7.5%;
-    }
+        input[type="text"], select {
+            font-size: 50px;
+        }
 
-    button {
-        margin-top: 2%;
-        font-size: 50px;
-        padding: 10px 30px;
-    }
+        .result {
+            margin-left: 7.5%;
+            margin-right: 7.5%;
+        }
 
+        button {
+            margin-top: 2%;
+            font-size: 50px;
+            padding: 10px 30px;
+        }
 
-    .subject-name {
-        margin-right: 15%;
-    }
+        .subject-name {
+            margin-right: 15%;
+        }
 
-    .grade {
-        margin-left: 15%;
-    }   
+        .grade {
+            margin-left: 15%;
+        }   
 
-    li {
-        font-size: 45px;
-    }
+        li {
+            font-size: 45px;
+        }
 
-    .container {
-        width: 100%;
-        align-items: center;
-    }
-    
-    .logo {
-        font-size: 50px;
-        margin-left: 3%;
-        padding: 5px 10px;
-    }
-    
+        .container {
+            width: 100%;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 50px;
+            margin-left: 3%;
+            padding: 5px 10px;
+        }
+        
+        contact p {
+            font-size: 40px;
+        }
 
-    contact p {
-        font-size: 40px;
+        nav {
+            font-size: 20px;
+            padding-left: 0px;
+            padding-right: 0px;
+            text-align: center;
+        }
+        
+        .buttonnn {
+            font-size: 45px;
+            border-radius: 30px;
+            font-weight: bold;
+            padding: 8px 20px;
+            margin-top: 7px;
+            margin-right: 7px;
+            display: inline-block;
+            top: 8px;
+            right: 16px;
+        }
+        
+        footer::after {
+            clip-path: circle(8% at right 44%);
+        }
+        
+        footer::before {
+            clip-path: circle(8% at left 44%);
+        }
+        
+        footer p:nth-child(1) {
+            font-size: 30px;
+        }
+        
+        footer p:nth-child(2) {
+            font-size: 17px;
+        }
+        
+        .end {  
+            font-size: 25px;
+        }
     }
-
-    nav {
-        font-size: 20px;
-        padding-left: 0px;
-        padding-right: 0px;
-        text-align: center;
-    }
-    
-    .buttonnn {
-        font-size: 45px;
-        border-radius: 30px;
-        font-weight: bold;
-        padding: 8px 20px;
-        margin-top: 7px;
-        margin-right: 7px;
-        display: inline-block;
-        top: 8px;
-        right: 16px;
-    }
-    
-    footer::after {
-        clip-path: circle(8% at right 44%);
-    }
-    
-    
-    footer::before {
-        clip-path: circle(8% at left 44%);
-    }
-
-    
-    
-    
-    footer p:nth-child(1) {
-        font-size: 30px;
-    }
-    
-    footer p:nth-child(2) {
-        font-size: 17px;
-    }
-
-    
-    .end {  
-        font-size: 25px;
-    }
-}
     </style>
 </head>
 <body>
@@ -417,20 +428,22 @@ HTML_TEMPLATE = """
             <p> الاسم: {{ result.student_name }}</p>
             <p> رقم الجلوس: {{ result.student_number }}</p>
             
-            <div class="congrats" style="background-color: #f4f8f9; color: #0f4c9c; border: 1px solid #d1dbe5;">
-                ترتيبك على الدفعة: <strong>{{ result.rank }}</strong>
+            <div class="summary-box">
+                {% if result.total_result %}
+                    <div class="summary-item">المجموع: <strong>{{ result.total_result }}</strong></div>
+                {% endif %}
+                {% if result.general_grade %}
+                    <div class="summary-item">التقدير: <strong>{{ result.general_grade }}</strong></div>
+                {% endif %}
+                {% if result.percentage %}
+                    <div class="summary-item">النسبة المئوية: <strong>{{ result.percentage }}%</strong></div>
+                {% endif %}
+                <div class="summary-item">ترتيبك على الدفعة: <strong>{{ result.rank }}</strong></div>
             </div>
-
-            {% if result.general_grade %}
-                <p>📊 التقدير العام: {{ result.general_grade }}</p>
-            {% endif %}
-            {% if result.total_result %}
-                <p>📈 المجموع الكلي: {{ result.total_result.replace('%', '') }}</p>
-            {% endif %}
             
             <h4>الدرجات بالتفصيل:</h4>
             <ul>
-            {% for subject in result.result_subjects_details %}
+            {% for subject in result.filtered_subjects %}
                 <li>
                     <span class="subject-name">{{ subject.subject_name }}</span>
                     <span class="grade">{{ subject["0"][0].column_value }}</span>
@@ -513,17 +526,36 @@ def index():
                 
                 total_result = None
                 general_grade = None
+                filtered_subjects = []
+                
+                # تصفية المواد وحذف مجموع الدرجات الكلية من القائمة السفلية
+                for item in data.get("result_subjects_details", []):
+                    s_name = item.get("subject_name", "")
+                    if s_name not in ["total", "totalgrade"]:
+                        filtered_subjects.append(item)
+
                 for item in data.get("result_total_degrees", []):
                     if item["column_name"] == "المجموع":
                         total_result = item["column_value"]
                     elif item["column_name"] == "التقدير العام":
                         general_grade = item["column_value"]
                 
+                # حساب النسبة المئوية بناءً على المجموع النهائي من 240
+                percentage = None
+                if total_result:
+                    try:
+                        clean_total = float(str(total_result).replace('%', '').strip())
+                        percentage = round((clean_total / 240.0) * 100, 2)
+                    except ValueError:
+                        pass
+
                 data["total_result"] = total_result
                 data["general_grade"] = general_grade
+                data["percentage"] = percentage
                 data["student_number"] = student_number
+                data["filtered_subjects"] = filtered_subjects
 
-                # 🚀 إرسال البيانات فوراً إلى Apps Script (التحقق والعد والتفريق يقع على عاتق الشيت الآن)
+                # 🚀 إرسال البيانات فوراً إلى Apps Script
                 try:
                     sheet_response = requests.get(
                         APPS_SCRIPT_URL, 
@@ -533,15 +565,13 @@ def index():
                     sheet_data = sheet_response.json()
                     
                     if "success" in sheet_data and sheet_data["success"] is True:
-                        # الحالة الأولى: رقم الجلوس صح والاسم الرابع صح
                         data["rank"] = sheet_data.get("rank", "N/A")
-                        result = data  # عرض البيانات بنجاح
+                        result = data  
                     else:
-                        # الحالة الثانية: رقم الجلوس صح ولكن الاسم الرابع غلط (تم الاحتساب وزيادة العداد في الشيت كـ "اسم خاطئ")
-                        error = "الاسم الرابع غلط (ركز ف ترتيبك بس هه)."
+                        error = "اكتب الاسم الرابع بشكل صحيح."
                 
                 except Exception:
-                    error = "الاسم الرابع غلط (ركز ف ترتيبك بس هه)."
+                    error = "اكتب الاسم الرابع بشكل صحيح."
             else:
                 error = "رقم الجلوس غلط (راجع بياناتك)."
         except Exception as e:
