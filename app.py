@@ -173,13 +173,22 @@ HTML_TEMPLATE = """
         color: #0f4c9c; 
         border: 1px solid #d1dbe5;
         padding: 1.5rem;
-        margin-bottom: 1.5rem;
+        margin: 1.5rem 0;
         border-radius: 16px;
-        font-size: 20px;
+        font-size: 22px;
     }
 
     .summary-item {
-        margin: 10px 0;
+        margin: 12px 0;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px dashed #d1dbe5;
+        padding-bottom: 8px;
+    }
+
+    .summary-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
     }
     
     ul {
@@ -274,116 +283,25 @@ HTML_TEMPLATE = """
     }
     
     @media (max-width: 1500px) {
-
-        .social a {
-            font-size: 50px;
-        }
-
-        footer {
-            height: 500px;
-        }
-
-        .congrats {
-            font-size: 50px;
-        }
-
-        .summary-box {
-            font-size: 45px;
-        }
-
-        h2 {
-            font-size: 90px;
-            margin-bottom: 3%;
-        }
-
-        h4 {
-            font-size: 50px;
-        }
-
-        p, label {
-            font-size: 45px;
-        }
-
-        input[type="text"], select {
-            font-size: 50px;
-        }
-
-        .result {
-            margin-left: 7.5%;
-            margin-right: 7.5%;
-        }
-
-        button {
-            margin-top: 2%;
-            font-size: 50px;
-            padding: 10px 30px;
-        }
-
-        .subject-name {
-            margin-right: 15%;
-        }
-
-        .grade {
-            margin-left: 15%;
-        }   
-
-        li {
-            font-size: 45px;
-        }
-
-        .container {
-            width: 100%;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 50px;
-            margin-left: 3%;
-            padding: 5px 10px;
-        }
-        
-        contact p {
-            font-size: 40px;
-        }
-
-        nav {
-            font-size: 20px;
-            padding-left: 0px;
-            padding-right: 0px;
-            text-align: center;
-        }
-        
-        .buttonnn {
-            font-size: 45px;
-            border-radius: 30px;
-            font-weight: bold;
-            padding: 8px 20px;
-            margin-top: 7px;
-            margin-right: 7px;
-            display: inline-block;
-            top: 8px;
-            right: 16px;
-        }
-        
-        footer::after {
-            clip-path: circle(8% at right 44%);
-        }
-        
-        footer::before {
-            clip-path: circle(8% at left 44%);
-        }
-        
-        footer p:nth-child(1) {
-            font-size: 30px;
-        }
-        
-        footer p:nth-child(2) {
-            font-size: 17px;
-        }
-        
-        .end {  
-            font-size: 25px;
-        }
+        .social a { font-size: 50px; }
+        footer { height: 500px; }
+        .congrats { font-size: 50px; }
+        .summary-box { font-size: 45px; }
+        h2 { font-size: 90px; margin-bottom: 3%; }
+        h4 { font-size: 50px; }
+        p, label { font-size: 45px; }
+        input[type="text"], select { font-size: 50px; }
+        .result { margin-left: 7.5%; margin-right: 7.5%; }
+        button { margin-top: 2%; font-size: 50px; padding: 10px 30px; }
+        .subject-name { margin-right: 15%; }
+        .grade { margin-left: 15%; }   
+        li { font-size: 45px; }
+        .logo { font-size: 50px; margin-left: 3%; padding: 5px 10px; }
+        nav { font-size: 20px; padding-left: 0px; padding-right: 0px; text-align: center; }
+        .buttonnn { font-size: 45px; border-radius: 30px; font-weight: bold; padding: 8px 20px; margin-top: 7px; margin-right: 7px; display: inline-block; top: 8px; right: 16px; }
+        footer p:nth-child(1) { font-size: 30px; }
+        footer p:nth-child(2) { font-size: 17px; }
+        .end { font-size: 25px; }
     }
     </style>
 </head>
@@ -430,15 +348,27 @@ HTML_TEMPLATE = """
             
             <div class="summary-box">
                 {% if result.total_result %}
-                    <div class="summary-item">المجموع: <strong>{{ result.total_result }}</strong></div>
+                    <div class="summary-item">
+                        <span>المجموع:</span> 
+                        <strong>{{ result.total_result }}</strong>
+                    </div>
                 {% endif %}
                 {% if result.general_grade %}
-                    <div class="summary-item">التقدير: <strong>{{ result.general_grade }}</strong></div>
+                    <div class="summary-item">
+                        <span>التقدير:</span> 
+                        <strong>{{ result.general_grade }}</strong>
+                    </div>
                 {% endif %}
                 {% if result.percentage %}
-                    <div class="summary-item">النسبة المئوية: <strong>{{ result.percentage }}%</strong></div>
+                    <div class="summary-item">
+                        <span>النسبة المئوية:</span> 
+                        <strong>{{ result.percentage }}%</strong>
+                    </div>
                 {% endif %}
-                <div class="summary-item">ترتيبك على الدفعة: <strong>{{ result.rank }}</strong></div>
+                <div class="summary-item">
+                    <span>ترتيبك على الدفعة:</span> 
+                    <strong>{{ result.rank }}</strong>
+                </div>
             </div>
             
             <h4>الدرجات بالتفصيل:</h4>
@@ -522,23 +452,33 @@ def index():
             data = res.json()
             
             if data.get("status") == "true" or data.get("status") is True:
-                student_name = data.get("student_name", "").strip()
-                
                 total_result = None
                 general_grade = None
                 filtered_subjects = []
                 
-                # تصفية المواد وحذف مجموع الدرجات الكلية من القائمة السفلية
+                # استخراج المجموع والتقدير من المواد مباشرة وتصفيتها
                 for item in data.get("result_subjects_details", []):
-                    s_name = item.get("subject_name", "")
-                    if s_name not in ["total", "totalgrade"]:
+                    s_name = str(item.get("subject_name", "")).strip()
+                    if s_name == "total":
+                        try:
+                            total_result = item["0"][0]["column_value"]
+                        except Exception:
+                            pass
+                    elif s_name == "totalgrade":
+                        try:
+                            general_grade = item["0"][0]["column_value"]
+                        except Exception:
+                            pass
+                    elif s_name not in ["total", "totalgrade"]:
                         filtered_subjects.append(item)
 
-                for item in data.get("result_total_degrees", []):
-                    if item["column_name"] == "المجموع":
-                        total_result = item["column_value"]
-                    elif item["column_name"] == "التقدير العام":
-                        general_grade = item["column_value"]
+                # إذا لم نجدهم في تفاصيل المواد، نبحث في النواتج الإجمالية كخطة احتياطية
+                if not total_result or not general_grade:
+                    for item in data.get("result_total_degrees", []):
+                        if item["column_name"] == "المجموع":
+                            total_result = total_result or item["column_value"]
+                        elif item["column_name"] == "التقدير العام":
+                            general_grade = general_grade or item["column_value"]
                 
                 # حساب النسبة المئوية بناءً على المجموع النهائي من 240
                 percentage = None
