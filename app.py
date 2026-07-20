@@ -311,22 +311,27 @@ HTML_TEMPLATE = """
         <a class="buttonnn" href="https://elda7e7a.vercel.app/">زور موقعنا</a>
     </nav>
     <div class="resolto">
-        <h2>نتائج الفرقة الثالثة كلية التجارة - جامعة أسيوط</h2>
+        <h2>نتائج كلية التجارة - جامعة أسيوط</h2>
         <form method="post">
-            <label for="group_id">الفرقة:</label>
-            <select name="group_id" id="group_id" required>
+            <!-- اختر الفرقة -->
+            <label for="year_select">الفرقة الدراسية:</label>
+            <select id="year_select" onchange="updateGroupOptions()" required>
                 <option value="">اختر الفرقة...</option>
-                <option value="164">الثالثة إنتظام</option>
-                <option value="165">الثالثة إنتساب</option>
-                <option value="166">الثالثة سياسة إنتظام</option>
-                <option value="167">الثالثة سياسة إنتساب</option>
+                <option value="2">الفرقة الثانية</option>
+                <option value="3">الفرقة الثالثة</option>
+            </select>
+
+            <!-- اختر الشعبة / النظام بناء على الفرقة -->
+            <label for="group_id">الشعبة / النظام:</label>
+            <select name="group_id" id="group_id" required disabled>
+                <option value="">اختر الفرقة أولاً...</option>
             </select>
 
             <label>رقم الجلوس:</label>
             <input type="text" name="student_number" placeholder="اكتب رقم الجلوس" required>
             
-            <label> إكتب الإسم الرابع فقط من إسمك:</label>
-            <input type="text" name="fourth_name" placeholder="الإسم الرابع فقط" required>
+            <label> اكتب الاسم الرابع فقط من اسمك:</label>
+            <input type="text" name="fourth_name" placeholder="الاسم الرابع فقط" required>
 
             <button type="submit">بحث</button>
         </form>
@@ -397,6 +402,59 @@ HTML_TEMPLATE = """
         </div>
         <p class="end"> &copy; 2026 Ahmed Hassan. All rights reserved. </p>
     </footer>
+
+    <script>
+    // خريطة الفرق والشعب
+    const groupsData = {
+        "1": [
+            { id: "160", name: "الأولى انتظام" },
+            { id: "161", name: "الأولى انتساب" }
+        ],
+        "2": [
+            { id: "325", name: "الثانية انتظام" },
+            { id: "324", name: "الثانية انتساب" },
+            { id: "149", name: "الثانية سياسة انتظام" },
+            { id: "150", name: "الثانية سياسة انتساب" }
+        ],
+        "3": [
+            { id: "164", name: "الثالثة انتظام" },
+            { id: "165", name: "الثالثة انتساب" },
+            { id: "166", name: "الثالثة سياسة انتظام" },
+            { id: "167", name: "الثالثة سياسة انتساب" }
+        ],
+        "4": [
+            { id: "168", name: "الرابعة محاسبة انتظام" },
+            { id: "169", name: "الرابعة محاسبة انتساب" },
+            { id: "170", name: "الرابعة إدارة انتظام" },
+            { id: "171", name: "الرابعة إدارة انتساب" }
+        ]
+    };
+
+    function updateGroupOptions() {
+        const yearSelect = document.getElementById('year_select');
+        const groupSelect = document.getElementById('group_id');
+        const selectedYear = yearSelect.value;
+
+        groupSelect.innerHTML = '';
+
+        if (!selectedYear) {
+            groupSelect.disabled = true;
+            groupSelect.innerHTML = '<option value="">اختر الفرقة أولاً...</option>';
+            return;
+        }
+
+        groupSelect.disabled = false;
+        groupSelect.innerHTML = '<option value="">اختر الشعبة...</option>';
+
+        const options = groupsData[selectedYear] || [];
+        options.forEach(group => {
+            const opt = document.createElement('option');
+            opt.value = group.id;
+            opt.textContent = group.name;
+            groupSelect.appendChild(opt);
+        });
+    }
+    </script>
 </body>
 </html>
 """
