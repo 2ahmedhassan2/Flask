@@ -340,7 +340,6 @@ HTML_TEMPLATE = """
 
         {% if result %}
         <div class="result">
-            <!-- سكشن ألف مبروك لجميع الفرق -->
             {% if result.general_grade and ("ممتاز" in result.general_grade or "جيد" in result.general_grade or "مقبول" in result.general_grade) %}
             <div class="congrats">
                 🎉 الف مبروك يا {{ result.first_name }}! تقديرك <strong>{{ result.general_grade }}</strong>. بالتوفيق!
@@ -526,7 +525,6 @@ def index():
                 for item in data.get("result_subjects_details", []):
                     s_name = str(item.get("subject_name", "")).strip().lower()
                     
-                    # استخراج التقدير والمجموع وحذفهم من قائمة المواد بأسفل الصفحة
                     if s_name in ["total", "المجموع"]:
                         try:
                             total_result = item["0"][0]["column_value"]
@@ -540,7 +538,7 @@ def index():
                     else:
                         filtered_subjects.append(item)
 
-                # البحث الاحتياطي في النواتج الإجمالية لضمان جلب التقدير والمجموع لجميع الفرق
+                # البحث الاحتياطي في النواتج الإجمالية
                 for item in data.get("result_total_degrees", []):
                     col_name = str(item.get("column_name", "")).strip()
                     if col_name == "المجموع":
@@ -548,12 +546,22 @@ def index():
                     elif col_name in ["التقدير العام", "تقدير عام", "التقدير"]:
                         general_grade = general_grade or item.get("column_value")
                 
-                # حساب النسبة المئوية
+                # حساب النسبة المئوية مع استبعاد التخلفات (تخلف1، تخلف2...)
                 percentage = None
                 if total_result:
                     try:
                         clean_total = float(str(total_result).replace('%', '').strip())
-                        max_marks = 300.0 if clean_total > 240 else 240.0
+                        
+                        # حساب الدرجة الكلية للفرقة بناء على عدد المواد الأساسية فقط (بدون تخلفات)
+                        base_subjects_count = 0
+                        for subj in filtered_subjects:
+                            sub_title = str(subj.get("subject_name", "")).strip().lower()
+                            # عدم احتساب أي مادة بها كلمة تخلف أو تخلفات
+                            if "تخلف" not in sub_title:
+                                base_subjects_count += 1
+                        
+                        # افترض أن المادة الأساسية بـ 20 درجة أو درجة العظمى للدفعة (الفرقة الثانية 14 مادة × 20 = 280)
+                        max_marks = base_subjects_count * 20.0 if base_subjects_count > 0 else (280.0 if clean_total > 240 else 240.0)
                         percentage = round((clean_total / max_marks) * 100, 2)
                     except ValueError:
                         pass
