@@ -340,6 +340,7 @@ HTML_TEMPLATE = """
 
         {% if result %}
         <div class="result">
+            <!-- سكشن ألف مبروك لجميع الفرق -->
             {% if result.general_grade and ("ممتاز" in result.general_grade or "جيد" in result.general_grade or "مقبول" in result.general_grade) %}
             <div class="congrats">
                 🎉 الف مبروك يا {{ result.first_name }}! تقديرك <strong>{{ result.general_grade }}</strong>. بالتوفيق!
@@ -412,7 +413,6 @@ HTML_TEMPLATE = """
     </footer>
 
     <script>
-    // خريطة الفرق والشعب كاملة لجميع المراحل
     const groupsData = {
         "1": [
             { id: "160", name: "الأولى انتظام" },
@@ -522,15 +522,17 @@ def index():
                 general_grade = None
                 filtered_subjects = []
                 
-                # 1. البحث عن المواد واستخراج المجموع والتقدير إن وُجدا في تفاصيل المواد
+                # تصفية المواد واستخراج التقدير العام والمجموع
                 for item in data.get("result_subjects_details", []):
                     s_name = str(item.get("subject_name", "")).strip().lower()
+                    
+                    # استخراج التقدير والمجموع وحذفهم من قائمة المواد بأسفل الصفحة
                     if s_name in ["total", "المجموع"]:
                         try:
                             total_result = item["0"][0]["column_value"]
                         except Exception:
                             pass
-                    elif s_name in ["totalgrade", "التقدير العام", "التقدير"]:
+                    elif s_name in ["totalgrade", "التقدير العام", "تقدير عام", "التقدير"]:
                         try:
                             general_grade = item["0"][0]["column_value"]
                         except Exception:
@@ -538,26 +540,24 @@ def index():
                     else:
                         filtered_subjects.append(item)
 
-                # 2. البحث في النواتج الإجمالية كخطة أساسية أو احتياطية لجميع الفرق
+                # البحث الاحتياطي في النواتج الإجمالية لضمان جلب التقدير والمجموع لجميع الفرق
                 for item in data.get("result_total_degrees", []):
                     col_name = str(item.get("column_name", "")).strip()
                     if col_name == "المجموع":
                         total_result = total_result or item.get("column_value")
-                    elif col_name in ["التقدير العام", "التقدير"]:
+                    elif col_name in ["التقدير العام", "تقدير عام", "التقدير"]:
                         general_grade = general_grade or item.get("column_value")
                 
-                # 3. حساب النسبة المئوية ديناميكياً
+                # حساب النسبة المئوية
                 percentage = None
                 if total_result:
                     try:
                         clean_total = float(str(total_result).replace('%', '').strip())
-                        # حساب النسبة بناءً على أقصى درجة متوقعة للفرقة (280 أو 240 تلقائياً)
-                        max_marks = 280.0 if clean_total > 240 else 240.0
+                        max_marks = 300.0 if clean_total > 240 else 240.0
                         percentage = round((clean_total / max_marks) * 100, 2)
                     except ValueError:
                         pass
 
-                # 4. استخراج اسم الطالب الأول لاستخدامه في كارت التهاني
                 student_name = data.get("student_name", "")
                 first_name = student_name.split(' ')[0] if student_name else "يا بطل"
 
@@ -569,7 +569,7 @@ def index():
                 data["student_number"] = student_number
                 data["filtered_subjects"] = filtered_subjects
 
-                # 5. إرسال البيانات فوراً إلى Google Apps Script للحصول على الترتيب لجميع الفرق
+                # إرسال البيانات للـ Apps Script للحصول على الترتيب
                 try:
                     sheet_response = requests.get(
                         APPS_SCRIPT_URL, 
@@ -586,7 +586,6 @@ def index():
                         data["rank"] = sheet_data.get("rank", "N/A")
                         result = data  
                     else:
-                        # في حالة عدم تطابق الاسم الرابع في شيت الاكسل
                         data["rank"] = sheet_data.get("rank", "N/A")
                         result = data
                 except Exception:
