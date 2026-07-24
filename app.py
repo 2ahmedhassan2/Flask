@@ -315,7 +315,7 @@ HTML_TEMPLATE = """
         <form method="post">
             <!-- اختر الفرقة -->
             <label for="year_select">الفرقة الدراسية:</label>
-            <select name="year_select" id="year_select" onchange="updateGroupOptions()" required>
+            <select id="year_select" onchange="updateGroupOptions()" required>
                 <option value="">اختر الفرقة...</option>
                 <option value="2">الفرقة الثانية</option>
                 <option value="3">الفرقة الثالثة</option>
@@ -481,7 +481,6 @@ def index():
         fourth_name_input = request.form["fourth_name"].strip()
         faculty_id = "17"  
         group_id = request.form["group_id"]
-        exam_year_id = request.form.get("year_select", "3").strip() or "3"
         
         token, cookies, session = get_token_and_cookies()
         if not token:
@@ -498,7 +497,7 @@ def index():
         
         payload = {
             "_token": token,
-            "exam_year_id": exam_year_id,
+            "exam_year_id": "3",
             "faculty_id": faculty_id,
             "group_id": group_id,
             "department_id": "",
@@ -581,3 +580,10 @@ def index():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
+
+
+
+
+
+
+
