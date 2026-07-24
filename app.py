@@ -317,10 +317,8 @@ HTML_TEMPLATE = """
             <label for="year_select">الفرقة الدراسية:</label>
             <select id="year_select" onchange="updateGroupOptions()" required>
                 <option value="">اختر الفرقة...</option>
-                <option value="1">الفرقة الأولى</option>
                 <option value="2">الفرقة الثانية</option>
-                #<option value="3">الفرقة الثالثة</option>
-                #<option value="4">الفرقة الرابعة</option>
+                <option value="3">الفرقة الثالثة</option>
             </select>
 
             <!-- اختر الشعبة / النظام بناء على الفرقة -->
