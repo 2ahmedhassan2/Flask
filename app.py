@@ -317,8 +317,10 @@ HTML_TEMPLATE = """
             <label for="year_select">الفرقة الدراسية:</label>
             <select id="year_select" onchange="updateGroupOptions()" required>
                 <option value="">اختر الفرقة...</option>
+                <option value="1">الفرقة الأولى</option>
                 <option value="2">الفرقة الثانية</option>
                 <option value="3">الفرقة الثالثة</option>
+                <option value="4">الفرقة الرابعة</option>
             </select>
 
             <!-- اختر الشعبة / النظام بناء على الفرقة -->
@@ -338,9 +340,9 @@ HTML_TEMPLATE = """
 
         {% if result %}
         <div class="result">
-            {% if result.general_grade in ["ممتاز", "جيد جدا", "جيد", "مقبول"] %}
+            {% if result.general_grade and ("ممتاز" in result.general_grade or "جيد" in result.general_grade or "مقبول" in result.general_grade) %}
             <div class="congrats">
-                🎉 الف مبروك يا {{ result.student_name.split(' ')[0] }}! تقديرك <strong>{{ result.general_grade }}</strong>. بالتوفيق!
+                🎉 الف مبروك يا {{ result.first_name }}! تقديرك <strong>{{ result.general_grade }}</strong>. بالتوفيق!
             </div>
             <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
             <script>
@@ -381,7 +383,13 @@ HTML_TEMPLATE = """
             {% for subject in result.filtered_subjects %}
                 <li>
                     <span class="subject-name">{{ subject.subject_name }}</span>
-                    <span class="grade">{{ subject["0"][0].column_value }}</span>
+                    <span class="grade">
+                        {% if subject.get("0") and subject["0"][0] %}
+                            {{ subject["0"][0].column_value }}
+                        {% else %}
+                            {{ subject.get("column_value", "---") }}
+                        {% endif %}
+                    </span>
                 </li>
             {% endfor %}
             </ul>
@@ -404,7 +412,7 @@ HTML_TEMPLATE = """
     </footer>
 
     <script>
-    // خريطة الفرق والشعب
+    // خريطة الفرق والشعب كاملة لجميع المراحل
     const groupsData = {
         "1": [
             { id: "160", name: "الأولى انتظام" },
@@ -514,64 +522,78 @@ def index():
                 general_grade = None
                 filtered_subjects = []
                 
-                # استخراج المجموع والتقدير من المواد مباشرة وتصفيتها
+                # 1. البحث عن المواد واستخراج المجموع والتقدير إن وُجدا في تفاصيل المواد
                 for item in data.get("result_subjects_details", []):
-                    s_name = str(item.get("subject_name", "")).strip()
-                    if s_name == "total":
+                    s_name = str(item.get("subject_name", "")).strip().lower()
+                    if s_name in ["total", "المجموع"]:
                         try:
                             total_result = item["0"][0]["column_value"]
                         except Exception:
                             pass
-                    elif s_name == "totalgrade":
+                    elif s_name in ["totalgrade", "التقدير العام", "التقدير"]:
                         try:
                             general_grade = item["0"][0]["column_value"]
                         except Exception:
                             pass
-                    elif s_name not in ["total", "totalgrade"]:
+                    else:
                         filtered_subjects.append(item)
 
-                # إذا لم نجدهم في تفاصيل المواد، نبحث في النواتج الإجمالية كخطة احتياطية
-                if not total_result or not general_grade:
-                    for item in data.get("result_total_degrees", []):
-                        if item["column_name"] == "المجموع":
-                            total_result = total_result or item["column_value"]
-                        elif item["column_name"] == "التقدير العام":
-                            general_grade = general_grade or item["column_value"]
+                # 2. البحث في النواتج الإجمالية كخطة أساسية أو احتياطية لجميع الفرق
+                for item in data.get("result_total_degrees", []):
+                    col_name = str(item.get("column_name", "")).strip()
+                    if col_name == "المجموع":
+                        total_result = total_result or item.get("column_value")
+                    elif col_name in ["التقدير العام", "التقدير"]:
+                        general_grade = general_grade or item.get("column_value")
                 
-                # حساب النسبة المئوية بناءً على المجموع النهائي من 240
+                # 3. حساب النسبة المئوية ديناميكياً
                 percentage = None
                 if total_result:
                     try:
                         clean_total = float(str(total_result).replace('%', '').strip())
-                        percentage = round((clean_total / 240.0) * 100, 2)
+                        # حساب النسبة بناءً على أقصى درجة متوقعة للفرقة (280 أو 240 تلقائياً)
+                        max_marks = 280.0 if clean_total > 240 else 240.0
+                        percentage = round((clean_total / max_marks) * 100, 2)
                     except ValueError:
                         pass
 
+                # 4. استخراج اسم الطالب الأول لاستخدامه في كارت التهاني
+                student_name = data.get("student_name", "")
+                first_name = student_name.split(' ')[0] if student_name else "يا بطل"
+
+                data["student_name"] = student_name
+                data["first_name"] = first_name
                 data["total_result"] = total_result
                 data["general_grade"] = general_grade
                 data["percentage"] = percentage
                 data["student_number"] = student_number
                 data["filtered_subjects"] = filtered_subjects
 
-                # 🚀 إرسال البيانات فوراً إلى Apps Script
+                # 5. إرسال البيانات فوراً إلى Google Apps Script للحصول على الترتيب لجميع الفرق
                 try:
                     sheet_response = requests.get(
                         APPS_SCRIPT_URL, 
-                        params={"seat": student_number, "fourthName": fourth_name_input}, 
+                        params={
+                            "seat": student_number, 
+                            "fourthName": fourth_name_input,
+                            "group": group_id
+                        }, 
                         timeout=10
                     )
                     sheet_data = sheet_response.json()
                     
-                    if "success" in sheet_data and sheet_data["success"] is True:
+                    if sheet_data.get("success") is True:
                         data["rank"] = sheet_data.get("rank", "N/A")
                         result = data  
                     else:
-                        error = "اكتب الاسم الرابع بشكل صحيح."
-                
+                        # في حالة عدم تطابق الاسم الرابع في شيت الاكسل
+                        data["rank"] = sheet_data.get("rank", "N/A")
+                        result = data
                 except Exception:
-                    error = "اكتب الاسم الرابع بشكل صحيح."
+                    data["rank"] = "N/A"
+                    result = data
             else:
-                error = "رقم الجلوس غلط (راجع بياناتك)."
+                error = "رقم الجلوس غير صحيح (راجع بياناتك)."
         except Exception as e:
             error = "فشل في الاتصال بالسيرفر."
             
@@ -580,10 +602,3 @@ def index():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
-
-
-
-
-
-
-
